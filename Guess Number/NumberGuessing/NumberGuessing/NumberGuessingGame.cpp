@@ -1,9 +1,6 @@
 #include "libraries.h"
 #include "Guesser.h"
 
-const int MIN = 0xFFFF0000;
-const int MAX = 0x0000FFFF; //HACK for testing
-
 // Gets integer from input stream, making sure it's valid
 int InputRangeLimit();
 // Returns response code mapped to by user input
@@ -23,8 +20,8 @@ std::map<std::string, ResponseCode> inputToResponseCode = {
 
 int main() {
 	Guesser guesser = Guesser();
-	int max = MAX;
-	int min = MIN;
+	int max;
+	int min;
 	// TODO let the user set the range
 	std::string response;
 	ResponseCode responseCode;
