@@ -33,30 +33,38 @@ int Guesser::getGuess()
 	int guess;
 	// Check if int overflow is possible
 	if (m_max > 1073741823 || m_min < -1073741824) {
-		//TODO get more elegant solution
+		// Calculate average with 64 bit integer
 		signed long long int wideGuess = ((signed long long int)m_max + (signed long long int)m_min) / 2;
 		guess = (int)wideGuess;
 	}
 	else {
 		guess = (m_min + m_max) / 2;
 	}
+	m_guess = guess;
 	return guess;
 }
 
-void Guesser::refineRange(int guess, char response)
+void Guesser::refineRange(char response)
 {
 	switch (response) {
 	case LOWER:
-		m_max = guess - 1;
+		// Value is lower than current guess
+		m_max = m_guess - 1;
 		if (m_max < m_min) {		//HACK research if there's a better way to keep range valid
 			m_max = m_min;
 		}
 		break;
 	case HIGHER:
-		m_min = guess + 1;
+		// Value is higher than current guess
+		m_min = m_guess + 1;
 		if (m_min > m_max) {
 			m_min = m_max;
 		}
+		break;
+	case CORRECT:
+		// Guess is correct value
+		m_min = m_guess;
+		m_max = m_guess;
 		break;
 	default:
 		throw std::invalid_argument("Invalid response code passed to Guesser::refineRange()");

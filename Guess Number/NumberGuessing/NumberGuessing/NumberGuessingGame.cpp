@@ -3,8 +3,11 @@
 
 const int MIN = 0xFFFF0000;
 const int MAX = 0x0000FFFF; //HACK for testing
-char parseResponse(std::string response); //HACK
 
+// Returns response code mapped to by user input
+char parseResponse(std::string response);
+
+// Map of understood inputs to their meaning
 std::map<std::string, char> inputToResponseCode = {
 	{"lower",Guesser::LOWER},
 	{ "too high",Guesser::LOWER },
@@ -12,8 +15,6 @@ std::map<std::string, char> inputToResponseCode = {
 	{ "higher",Guesser::HIGHER },
 	{ "too low",Guesser::HIGHER },
 	{"h",Guesser::HIGHER},
-	{"correct",Guesser::CORRECT},
-	{"right",Guesser::CORRECT},
 	{"yes",Guesser::CORRECT},
 	{"y",Guesser::CORRECT}
 };
@@ -23,7 +24,6 @@ int main() {
 	int max = MAX;
 	int min = MIN;
 	// TODO let the user set the range
-	int guess;
 	std::string response;
 	char responseCode;
 	bool playing = true;
@@ -32,34 +32,36 @@ int main() {
 		guesser.setRange(min, max);
 		std::cout << "Think of a number between " << MIN << " and " << MAX << std::endl;
 		do {
-			guess = guesser.getGuess();
-			std::cout << "Is it " << guess << "?\n";
+			// Ask user if current 
+			std::cout << "Is it " << guesser.getGuess() << "?\n";
 			std::getline(std::cin, response);
 			responseCode = parseResponse(response);
 			switch (responseCode) {
 			case Guesser::HIGHER:
 			case Guesser::LOWER:
-				guesser.refineRange(guess, responseCode);
+				guesser.refineRange(responseCode);
 				break;
 			case Guesser::CORRECT:
+				// Stop looping through game
 				std::cout << "Yes! I got it!\n";
 				hasWon = true;
 				break;
 			default:
+				// If user input can't be matched to a response code
 				std::cout << "Sorry, I didn't understand you\n";
 			}
-			if (guesser.isLastGuess()) {			//HACK
+			if (guesser.isLastGuess()) {
+				// If only one value is possible, state that value was found instead of prompting user
 				std::cout << "Then it must be " << guesser.getGuess() << std::endl;
 				hasWon = true;
 			}
 		} while (!hasWon);
+		// Ask if player wants to play again
 		std::cout << "\nWould you like to play again?" << std::endl;
-		//
 		std::getline(std::cin, response);
 		responseCode = parseResponse(response);		//HACK parser should have context/map passed to it
 		playing = responseCode == Guesser::CORRECT;
 	}
-		//TODO player can play again
 		system("pause");
 }
 
