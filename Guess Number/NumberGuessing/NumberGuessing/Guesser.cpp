@@ -4,6 +4,7 @@
 
 Guesser::Guesser()
 {
+	setRange(MIN, MAX);
 }
 
 Guesser::Guesser(int min, int max)
@@ -25,10 +26,12 @@ void Guesser::setRange(int min, int max)
 	else {
 		m_min = min;
 		m_max = max;
+		// Calculate new best guess
+		calculateGuess();
 	}
 }
 
-int Guesser::getGuess()
+void Guesser::calculateGuess()
 {
 	int guess;
 	// Check if int overflow is possible
@@ -41,7 +44,11 @@ int Guesser::getGuess()
 		guess = (m_min + m_max) / 2;
 	}
 	m_guess = guess;
-	return guess;
+}
+
+int Guesser::getGuess()
+{	
+	return m_guess;
 }
 
 void Guesser::refineRange(char response)
@@ -68,7 +75,10 @@ void Guesser::refineRange(char response)
 		break;
 	default:
 		throw std::invalid_argument("Invalid response code passed to Guesser::refineRange()");
+		break;
 	}
+	// Calculate new best guess 
+	calculateGuess();
 }
 
 bool Guesser::isLastGuess()

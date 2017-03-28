@@ -21,7 +21,11 @@ public:
 	*/
 	void setRange(int min, int max);
 
-	/*	Returns current guess, and sets m_guess to that value
+	/* Calculates guess as midpoint between m_min and m_max
+	*/
+	void calculateGuess();
+
+	/*	Returns current guess
 	*/
 	int getGuess();
 
@@ -36,6 +40,10 @@ public:
 	static const char HIGHER = 'h';
 	static const char LOWER = 'l';
 	static const char CORRECT = 'c';
+
+	const int MIN = 0x80000000;
+	const int MAX = 0x7FFFFFFF;
+
 private:
 	int m_min;
 	int m_max;
