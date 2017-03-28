@@ -30,7 +30,16 @@ void Guesser::setRange(int min, int max)
 
 int Guesser::getGuess()
 {
-	int guess = (m_min + m_max) / 2;
+	int guess;
+	// Check if int overflow is possible
+	if (m_max > 1073741823 || m_min < -1073741824) {
+		//TODO get more elegant solution
+		signed long long int wideGuess = ((signed long long int)m_max + (signed long long int)m_min) / 2;
+		guess = (int)wideGuess;
+	}
+	else {
+		guess = (m_min + m_max) / 2;
+	}
 	return guess;
 }
 
