@@ -51,7 +51,7 @@ int Guesser::getGuess()
 	return m_guess;
 }
 
-void Guesser::refineRange(char response)
+void Guesser::refineRange(ResponseCode response)
 {
 	switch (response) {
 	case LOWER:
@@ -73,8 +73,8 @@ void Guesser::refineRange(char response)
 		m_min = m_guess;
 		m_max = m_guess;
 		break;
-	default:
-		throw std::invalid_argument("Invalid response code passed to Guesser::refineRange()");
+	case INVALID_INPUT:
+		// Do nothing
 		break;
 	}
 	// Calculate new best guess 

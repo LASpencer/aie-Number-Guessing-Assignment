@@ -1,6 +1,14 @@
 #pragma once
 #include "libraries.h"
 
+// Possible responses for controlling refineRange
+enum ResponseCode {
+	HIGHER,
+	LOWER,
+	CORRECT,
+	INVALID_INPUT
+};
+
 /*
 Guesser Class
 
@@ -32,14 +40,10 @@ public:
 	/* Updates minimum and maximum possible values based on user respone
 		response = response code, HIGHER means number is higher than guess, LOWER means number is lower than guess
 	*/
-	void refineRange(char response);	//TODO change to enumeration
+	void refineRange(ResponseCode response);
 
 	// Returns true if m_min == m_max, so only one value is possible
 	bool isLastGuess();
-
-	static const char HIGHER = 'h';
-	static const char LOWER = 'l';
-	static const char CORRECT = 'c';
 
 	const int MIN = 0x80000000;
 	const int MAX = 0x7FFFFFFF;
