@@ -1,5 +1,4 @@
 #pragma once
-#include "libraries.h"
 
 // Possible responses for controlling refineRange
 enum ResponseCode {

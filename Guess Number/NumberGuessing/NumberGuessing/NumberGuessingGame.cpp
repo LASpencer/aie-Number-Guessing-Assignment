@@ -1,4 +1,7 @@
-#include "libraries.h"
+#include <iostream>
+#include <map>
+#include <string>
+#include <exception>
 #include "Guesser.h"
 
 // Gets integer from input stream, making sure it's valid
@@ -22,7 +25,6 @@ int main() {
 	Guesser guesser = Guesser();
 	int max;
 	int min;
-	// TODO let the user set the range
 	std::string response;
 	ResponseCode responseCode;
 	//User inputs max and min values
@@ -87,7 +89,7 @@ int main() {
 		// Ask if player wants to play again
 		std::cout << "\nWould you like to play again?" << std::endl;
 		std::getline(std::cin, response);
-		responseCode = parseResponse(response);		//HACK parser should have context/map passed to it
+		responseCode = parseResponse(response);	
 		playing = responseCode == CORRECT;
 	}
 }

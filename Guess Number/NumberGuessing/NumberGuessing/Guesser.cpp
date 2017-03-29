@@ -1,6 +1,6 @@
+#include <exception>
+#include <string>
 #include "Guesser.h"
-
-
 
 Guesser::Guesser()
 {
@@ -20,7 +20,6 @@ Guesser::~Guesser()
 void Guesser::setRange(int min, int max)
 {
 	if (min > max) {
-		// HACK maybe this should silently swap the values?
 		throw std::invalid_argument("min value cannot be greater than max value");
 	}
 	else {
@@ -57,7 +56,7 @@ void Guesser::refineRange(ResponseCode response)
 	case LOWER:
 		// Value is lower than current guess
 		m_max = m_guess - 1;
-		if (m_max < m_min) {		//HACK research if there's a better way to keep range valid
+		if (m_max < m_min) {
 			m_max = m_min;
 		}
 		break;
