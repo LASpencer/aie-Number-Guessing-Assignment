@@ -25,8 +25,8 @@ int main() {
 	Guesser guesser = Guesser();
 	int max;
 	int min;
-	std::string response;
-	ResponseCode responseCode;
+	std::string response;			//Text input by user
+	ResponseCode responseCode;		//Meaning of user input
 	//User inputs max and min values
 	std::cout << "Enter the lowest number" << std::endl;
 	min = InputRangeLimit();
@@ -113,7 +113,7 @@ int InputRangeLimit()
 
 ResponseCode parseResponse(std::string response){
 	//convert response to lower case
-	for (int i = 0; i < response.length(); i++) {
+	for (size_t i = 0; i < response.length(); i++) {
 		response[i] = tolower(response[i]);
 	}
 	if (inputToResponseCode.count(response) !=0){		// check response exists in map

@@ -2,10 +2,10 @@
 
 // Possible responses for controlling refineRange
 enum ResponseCode {
-	HIGHER,
-	LOWER,
-	CORRECT,
-	INVALID_INPUT
+	HIGHER,				//Number is higher than current guess
+	LOWER,				//Number is lower than current guess
+	CORRECT,			//Number is equal to guess, or user otherwise indicating agreement
+	INVALID_INPUT		//User input could not be understood
 };
 
 /*
@@ -44,12 +44,12 @@ public:
 	// Returns true if m_min == m_max, so only one value is possible
 	bool isLastGuess();
 
-	const int MIN = 0x80000000;
-	const int MAX = 0x7FFFFFFF;
+	const int MIN = 0x80000000;	//Default value for m_min
+	const int MAX = 0x7FFFFFFF;	//Default value for m_max
 
 private:
-	int m_min;
-	int m_max;
-	int m_guess;
+	int m_min;		//Minimum possible value of number
+	int m_max;		//Maximum possible value of number
+	int m_guess;	//Current guess of number
 };
 
