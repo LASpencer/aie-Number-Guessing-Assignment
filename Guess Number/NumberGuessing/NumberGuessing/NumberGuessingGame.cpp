@@ -7,7 +7,7 @@
 // Gets integer from input stream, making sure it's valid
 int InputRangeLimit();
 // Returns response code mapped to by user input
-ResponseCode parseResponse(std::string response);
+ResponseCode ParseResponse(std::string response);
 
 // Map of understood inputs to their meaning
 std::map<std::string, ResponseCode> inputToResponseCode = {
@@ -41,7 +41,7 @@ int main() {
 			// Check if the user wrote the wrong numbers, or just input them in the wrong order
 			std::cout << "You might have that backwards. Did you mean a number between " << max << " and " << min << "?" << std::endl;
 			std::getline(std::cin, response);
-			if (parseResponse(response) == CORRECT) {
+			if (ParseResponse(response) == CORRECT) {
 				// Swap max and min
 				int temp = max;
 				max = min;
@@ -58,17 +58,23 @@ int main() {
 	bool playing = true;
 	while (playing) {
 		bool hasWon = false;
-		guesser.setRange(min, max);
+		guesser.SetRange(min, max);
 		std::cout << "Think of a number between " << min << " and " << max << std::endl;
-		do {
+		while (!hasWon) {
 			// Ask user if current 
-			std::cout << "Is it " << guesser.getGuess() << "?\n";
+			std::cout << "Is it " << guesser.GetGuess() << "?\n";
 			std::getline(std::cin, response);
-			responseCode = parseResponse(response);
+			responseCode = ParseResponse(response);
 			switch (responseCode) {
 			case HIGHER:
+				//TODO if saying higher than max, call user a liar and hasWon = true
+				//TODO if higher than m_max, do the same
+				guesser.RefineRange(responseCode);
+				break;
 			case LOWER:
-				guesser.refineRange(responseCode);
+				//TODO if saying lower than min, call user a liar and hasWon = true
+				//TODO if lower than m_min, do the same
+				guesser.RefineRange(responseCode);
 				break;
 			case CORRECT:
 				// Stop looping through game
@@ -80,16 +86,16 @@ int main() {
 				// If user input can't be matched to a response code
 				std::cout << "Sorry, I didn't understand you\n";
 			}
-			if (guesser.isLastGuess()) {
+			if (guesser.IsLastGuess()) {
 				// If only one value is possible, state that value was found instead of prompting user
-				std::cout << "Then it must be " << guesser.getGuess() << std::endl;
+				std::cout << "Then it must be " << guesser.GetGuess() << std::endl;
 				hasWon = true;
 			}
-		} while (!hasWon);
+		}
 		// Ask if player wants to play again
 		std::cout << "\nWould you like to play again?" << std::endl;
 		std::getline(std::cin, response);
-		responseCode = parseResponse(response);	
+		responseCode = ParseResponse(response);	
 		playing = responseCode == CORRECT;
 	}
 }
@@ -111,7 +117,7 @@ int InputRangeLimit()
 	return limit;
 }
 
-ResponseCode parseResponse(std::string response){
+ResponseCode ParseResponse(std::string response){
 	//convert response to lower case
 	for (size_t i = 0; i < response.length(); i++) {
 		response[i] = tolower(response[i]);

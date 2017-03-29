@@ -2,14 +2,17 @@
 #include <string>
 #include "Guesser.h"
 
+const int MIN = 0x80000000;	//Default value for m_min
+const int MAX = 0x7FFFFFFF;	//Default value for m_max
+
 Guesser::Guesser()
 {
-	setRange(MIN, MAX);
+	SetRange(MIN, MAX);
 }
 
 Guesser::Guesser(int min, int max)
 {
-	setRange(min, max);
+	SetRange(min, max);
 }
 
 
@@ -17,7 +20,7 @@ Guesser::~Guesser()
 {
 }
 
-void Guesser::setRange(int min, int max)
+void Guesser::SetRange(int min, int max)
 {
 	if (min > max) {
 		throw std::invalid_argument("min value cannot be greater than max value");
@@ -26,11 +29,11 @@ void Guesser::setRange(int min, int max)
 		m_min = min;
 		m_max = max;
 		// Calculate new best guess
-		calculateGuess();
+		CalculateGuess();
 	}
 }
 
-void Guesser::calculateGuess()
+void Guesser::CalculateGuess()
 {
 	int guess;
 	// Check if int overflow is possible
@@ -45,12 +48,12 @@ void Guesser::calculateGuess()
 	m_guess = guess;
 }
 
-int Guesser::getGuess()
+int Guesser::GetGuess()
 {	
 	return m_guess;
 }
 
-void Guesser::refineRange(ResponseCode response)
+void Guesser::RefineRange(ResponseCode response)
 {
 	switch (response) {
 	case LOWER:
@@ -77,10 +80,10 @@ void Guesser::refineRange(ResponseCode response)
 		break;
 	}
 	// Calculate new best guess 
-	calculateGuess();
+	CalculateGuess();
 }
 
-bool Guesser::isLastGuess()
+bool Guesser::IsLastGuess()
 {
 	return m_min == m_max;
 }
